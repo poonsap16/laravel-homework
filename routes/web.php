@@ -67,7 +67,11 @@ Route::post('/save',function(Illuminate\Http\Request $request){
 
 });
 
-Route::get('/show',function(){
-    return view('report');
+Route::get('/show',function(Illuminate\Http\Request $tasks){
+    
+    $tasks = \App\Task::all();
+    //return $tasks;
+
+    return view('report',compact('tasks'));
 });
 
