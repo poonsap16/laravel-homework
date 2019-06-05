@@ -49,3 +49,25 @@ Route::get('/store',function(){
 Route::post('/store',function(Illuminate\Http\Request $request){
     return $request->all() ;
 });
+
+
+Route::get('/create',function(){
+    return view('create');
+});
+
+Route::post('/save',function(Illuminate\Http\Request $request){
+    // return $request->all() ;
+    $task = new \App\Task();
+    $task->type = $request->input('type');
+    $task->name = $request->input('name');
+    $task->detail = $request->input('detail');
+    $task->completed =$request->input('status');
+    $task->save(); 
+    return "<h2>Update Case Complete</h2>";
+
+});
+
+Route::get('/show',function(){
+    return view('report');
+});
+
