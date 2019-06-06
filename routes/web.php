@@ -57,13 +57,22 @@ Route::get('/create',function(){
 
 Route::post('/save',function(Illuminate\Http\Request $request){
     // return $request->all() ;
+
+    $validate = $request->validate([
+        'type' => 'required',
+        'name' => 'required|max:255',
+        'status' => 'required'
+
+    ]);
+
     $task = new \App\Task();
     $task->type = $request->input('type');
     $task->name = $request->input('name');
     $task->detail = $request->input('detail');
     $task->completed =$request->input('status');
     $task->save(); 
-    return "<h2>Update Case Complete</h2>";
+    return redirect()->back()->with('success','Created Successfully');
+    // return "<h2>Update Case Complete</h2>";
 
 });
 
@@ -74,4 +83,26 @@ Route::get('/show',function(Illuminate\Http\Request $tasks){
 
     return view('report',compact('tasks'));
 });
+
+
+Route:: get('/tasks/{id}', function($id){
+//   return \App\Task::find($id);  
+ $task = \App\Task::find($id); 
+  return view('edit')->with(['task' => $task]);  
+});
+
+// Route::put('/tasks/{id}', function(Illuminate\Http\Request $request, $id){
+// // return $request->all();
+// $task = \App\Task::find($id); 
+// $task->update($request->all());
+// return redirect()->back()->with('success','Created Successfully'); 
+// });
+
+Route::patch('/tasks/{id}', function(Illuminate\Http\Request $request, $id){
+    // return $request->all();
+    $task = \App\Task::find($id); 
+    $task->update($request->all());
+    return redirect()->back()->with('success','Created Successfully'); 
+    });
+    
 

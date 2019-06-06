@@ -7,8 +7,10 @@
 
 <div class="container">
 
-<form action="save" method="post">
+<form action="{{ url('/tasks',$task->id)}}" method="POST">
     <input type="hidden" name="_token" value="{{ csrf_token() }}"> </br> 
+    <!-- <input type="hidden" name="_method" value="PUT"> -->
+    <input type="hidden" name="_method" value="PATCH">
 
     @if($message = Session::get('success'))
       <div class="alert alert-success">
@@ -44,13 +46,13 @@
     <div class="form-group row">
       <label for="detail" class="col-sm-2 col-form-label"><b>Job Detail</b></label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="detail" name="detail">
+        <input type="text" class="form-control" id="detail" name="detail" value="{{old('detail',$task->detail)}}">
       </div>
     </div>
     <div class="form-group row">
       <label for="name" class="col-sm-2 col-form-label"><b>User</b></label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}">
+        <input type="text" class="form-control" id="name" name="name" value="{{old('name',$task->name)}}">
       </div>
     </div>
 
