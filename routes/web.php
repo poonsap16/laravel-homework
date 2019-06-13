@@ -71,7 +71,9 @@ Route::post('/save',function(Illuminate\Http\Request $request){
     $task->detail = $request->input('detail');
     $task->completed =$request->input('status');
     $task->save(); 
-    return redirect()->back()->with('success','Created Successfully');
+
+    return redirect('show');
+    // return redirect()->back()->with('success','Created Successfully');
     // return "<h2>Update Case Complete</h2>";
 
 });
@@ -98,11 +100,17 @@ Route:: get('/tasks/{id}', function($id){
 // return redirect()->back()->with('success','Created Successfully'); 
 // });
 
-Route::patch('/tasks/{id}', function(Illuminate\Http\Request $request, $id){
-    // return $request->all();
-    $task = \App\Task::find($id); 
-    $task->update($request->all());
-    return redirect()->back()->with('success','Created Successfully'); 
+// Route::patch('/tasks/{id}', function(Illuminate\Http\Request $request, $id){
+//     // return $request->all();
+//     $task = \App\Task::find($id); 
+//     $task->update($request->all());
+//     return redirect()->back()->with('success','Created Successfully'); 
+//     });
+
+Route::patch('/tasks/{task}', function(\App\Task $task){
+    $task->update(request()->all());
+    return back();
+    //return $task;
     });
     
 
