@@ -58,13 +58,20 @@ Route::get('/create',function(){
 Route::post('/save',function(Illuminate\Http\Request $request){
     // return $request->all() ;
 
-    $validate = $request->validate([
+    $validate =[
         'type' => 'required',
-        'name' => 'required|max:255',
+        'name' => 'required|max:5',
         'status' => 'required'
 
-    ]);
+    ];
+    $messageError = [
+        'type.required' => 'เลือกประเภทงาน',
+        'name.required' => 'ใส่ชื่องาน',
+        'name.max' => 'กรอกได้ไม่เกิน 5 ตัวอักษร'
+    ];
 
+
+    $request->validate($validate,$messageError);
     $task = new \App\Task();
     $task->type = $request->input('type');
     $task->name = $request->input('name');
@@ -78,19 +85,26 @@ Route::post('/save',function(Illuminate\Http\Request $request){
 
 });
 
-Route::get('/show',function(Illuminate\Http\Request $tasks){
-    
-    $tasks = \App\Task::all();
-    //return $tasks;
-
-    return view('report',compact('tasks'));
-});
-
+Route::get('/show', 'TaskController@index');
 
 Route:: get('/tasks/{id}', function($id){
-//   return \App\Task::find($id);  
+//   return \App\Task::find($id); 
+ $tasks = \App\Task::all(); 
  $task = \App\Task::find($id); 
-  return view('edit')->with(['task' => $task]);  
+ if (empty($task)){
+     return "Not found";
+ }
+  return view('report')->with(['task' => $task,'tasks' => $tasks]);  
+
+//  return view('report')
+//         ->with([
+//             'type'=> $type,
+//             'name'=>$name,
+//             'detail'=>$detail,
+//             'completed'=>$completed,
+//             'task'=>$task,
+//             'tasks'=>$tasks,
+//         ]);
 });
 
 // Route::put('/tasks/{id}', function(Illuminate\Http\Request $request, $id){

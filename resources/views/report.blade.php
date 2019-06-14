@@ -4,6 +4,7 @@
 
 @section('content')
 
+@include('_form')
 <div class="container" align="center">
 <div><h2>Report IT Support</h2></div></br>
 
@@ -21,7 +22,7 @@
     @foreach($tasks as $task)
     <tr>    
         <th>{{ $task->id }}</th>
-        <th>{{ $task->type }}</th>
+        <th>{{ $task->getTypeName() }}</th>
         <th>{{ $task->name }}</th>
         <th>{{ $task->detail }}</th>
         <!-- <th>{{ $task->completed }}</th> -->
@@ -46,6 +47,9 @@
             >Complete Job</button>
           @endif
         </th>
+        <td>
+          <a class="btn btn-success" role="button" href="{{url('/tasks',$task->id)}}">Edit</a>
+        </td>
     </tr>
     @endforeach
   </tbody> 
