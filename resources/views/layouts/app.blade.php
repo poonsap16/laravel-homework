@@ -8,6 +8,17 @@
     <title>@yield('title')</title>
 </head>
 <body>
+
+    @if(Auth::user())
+  
+	    <form action="{{ url('logout') }}" method="POST">
+		    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <div class="col-sm-12" align="right"></br>
+                <input type="submit" name="submit" value="Logout">
+            </div>
+	    </form>
+	@endif
+
     <p>
         @yield('content')
     </p>
