@@ -16,6 +16,9 @@
         <th scope="col">ชื่อผู้ใช้งาน</th>
         <th scope="col">รายละเอียดงาน</th>
         <th scope="col">สถานะงาน</th>
+        <th scope="col">ยืนยันสถานะ</th>
+        <th scope="col">แก้ไข</th>
+        <th scope="col">ลบ</th>
     </tr>
   </thead>
   <tbody>
@@ -42,7 +45,7 @@
             <input type="hidden" name ="completed" value = "1">
           </form>
           @if(!$task->completed)
-            <button class="btn btn-success btn-sm"
+            <button class="btn btn-success"
             onclick="document.getElementById('complete-{{ $task->id }}').submit()"
             >Complete Job</button>
           @endif
@@ -50,6 +53,15 @@
         <td>
           <a class="btn btn-success" role="button" href="{{url('/tasks',$task->id)}}">Edit</a>
         </td>
+
+        <td>
+        <form method="POST" action="{{ url('/tasks', $task->id) }}">
+				    {{ csrf_field() }}
+				    {{ method_field('DELETE') }}
+				    <button class="btn btn-danger" type="submit">Delete</button>
+				</form>
+        </td>
+
     </tr>
     @endforeach
   </tbody> 

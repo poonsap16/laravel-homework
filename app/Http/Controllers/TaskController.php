@@ -28,7 +28,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -39,7 +39,28 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate =[
+            'type' => 'required',
+            'name' => 'required|max:5',
+            'status' => 'required'
+    
+        ];
+        $messageError = [
+            'type.required' => 'เลือกประเภทงาน',
+            'name.required' => 'ใส่ชื่องาน',
+            'name.max' => 'กรอกได้ไม่เกิน 5 ตัวอักษร'
+        ];
+    
+    
+        $request->validate($validate,$messageError);
+        $task = new \App\Task();
+        $task->type = $request->input('type');
+        $task->name = $request->input('name');
+        $task->detail = $request->input('detail');
+        $task->completed =$request->input('status');
+        $task->save(); 
+    
+        return redirect('show');
     }
 
     /**
@@ -61,7 +82,13 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tasks = \App\Task::all(); 
+        $task = \App\Task::find($id); 
+        if (empty($task)){
+            return "Not found";
+        }
+         return view('report')->with(['task' => $task,'tasks' => $tasks]);  
+       
     }
 
     /**
@@ -73,7 +100,10 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         
+        Task::find($id)->update($request->all());
+        return redirect()->back()->with('success','Edited Successfully !!');
+
     }
 
     /**
@@ -84,6 +114,8 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task=Task::find($id);
+        $task->delete();
+        return back();
     }
 }
