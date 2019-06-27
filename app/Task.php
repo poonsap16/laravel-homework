@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     Protected $fillable = [
-        'type',
+        'type_id',
         'name',
         'detail',
         'completed'
@@ -34,6 +34,11 @@ class Task extends Model
                 return "Unknow";
                 break;
         }
+
+    }
+
+    public function type(){
+        return $this->belongsTo(Type::class,'type_id');
 
     }
 

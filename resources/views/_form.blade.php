@@ -31,13 +31,20 @@
         <div class="form-group row">
             <label for="type" class="col-sm-2 col-form-label"><b>Job Type</b></label>
             <div class="col-sm-10">
-                <select class="form-control" id="type" name="type">
+                <select class="form-control" id="type_id" name="type_id">
                   <option value="" hidden select>เลือกประเภทงาน</option>
-                    <option value="1" {{old('type',isset($task) ? $task -> type:'') == 1 ? 'selected' : ''}}>Hardware</option>
+                  @foreach($types as $type)
+                    @if(old('type_id', isset($task) ? $task->type_id : '') == $type['id'])
+                      <option value="{{$type['id']}}" selected>{{$type['name']}}</option>
+                    @else
+                      <option value="{{$type['id']}}">{{$type['name']}}</option>
+                    @endif
+                  @endforeach
+                    <!-- <option value="1" {{old('type',isset($task) ? $task -> type:'') == 1 ? 'selected' : ''}}>Hardware</option>
                     <option value="2" {{old('type',isset($task) ? $task -> type:'')== 2 ? 'selected' : ''}}>Software</option>
                     <option value="3" {{old('type',isset($task) ? $task -> type:'')== 3 ? 'selected' : ''}}>Network</option>
                     <option value="4" {{old('type',isset($task) ? $task -> type:'')== 4 ? 'selected' : ''}}>Virus</option>
-                    <option value="5" {{old('type',isset($task) ? $task -> type:'')== 5 ? 'selected' : ''}}>Consult</option>
+                    <option value="5" {{old('type',isset($task) ? $task -> type:'')== 5 ? 'selected' : ''}}>Consult</option> -->
                 </select>
                 @error('type')
                 <small class = "form-text text-danger">{{ $message}} </small>

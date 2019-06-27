@@ -18,10 +18,11 @@ class TaskController extends Controller
     public function index()
     {
             
+    // $tasks = Task::all();
+    $types = \App\Type::all();
     $tasks = Task::all();
-    //return $tasks;
-
-    return view('report',compact('tasks'));
+  
+    return view('report',compact('tasks','types'));
     }
 
     /**
@@ -42,22 +43,23 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+   
         $validate =[
-            'type' => 'required',
+            'type_id' => 'required',
             'name' => 'required|max:5',
             'status' => 'required'
     
         ];
         $messageError = [
-            'type.required' => 'เลือกประเภทงาน',
+            'type_id.required' => 'เลือกประเภทงาน',
             'name.required' => 'ใส่ชื่องาน',
             'name.max' => 'กรอกได้ไม่เกิน 5 ตัวอักษร'
         ];
     
-    
+  
         $request->validate($validate,$messageError);
         $task = new \App\Task();
-        $task->type = $request->input('type');
+        $task->type_id = $request->input('type_id');
         $task->name = $request->input('name');
         $task->detail = $request->input('detail');
         $task->completed =$request->input('status');

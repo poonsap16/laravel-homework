@@ -25,7 +25,7 @@
     @foreach($tasks as $task)
     <tr>    
         <th>{{ $task->id }}</th>
-        <th>{{ $task->getTypeName() }}</th>
+        <th>{{ $task->type->name}}</th>
         <th>{{ $task->name }}</th>
         <th>{{ $task->detail }}</th>
         <!-- <th>{{ $task->completed }}</th> -->
