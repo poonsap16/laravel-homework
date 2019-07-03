@@ -10,6 +10,7 @@ class Task extends Model
         'type_id',
         'name',
         'detail',
+        'user_id',
         'completed'
     ];
 
@@ -39,6 +40,11 @@ class Task extends Model
 
     public function type(){
         return $this->belongsTo(Type::class,'type_id');
+
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
 
     }
 

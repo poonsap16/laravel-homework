@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/create_type','TypesController@index');
+
+Route::post('create_type','TypesController@create');
 
 Route::get('/show', 'TaskController@index');
 

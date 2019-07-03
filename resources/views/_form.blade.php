@@ -40,11 +40,7 @@
                       <option value="{{$type['id']}}">{{$type['name']}}</option>
                     @endif
                   @endforeach
-                    <!-- <option value="1" {{old('type',isset($task) ? $task -> type:'') == 1 ? 'selected' : ''}}>Hardware</option>
-                    <option value="2" {{old('type',isset($task) ? $task -> type:'')== 2 ? 'selected' : ''}}>Software</option>
-                    <option value="3" {{old('type',isset($task) ? $task -> type:'')== 3 ? 'selected' : ''}}>Network</option>
-                    <option value="4" {{old('type',isset($task) ? $task -> type:'')== 4 ? 'selected' : ''}}>Virus</option>
-                    <option value="5" {{old('type',isset($task) ? $task -> type:'')== 5 ? 'selected' : ''}}>Consult</option> -->
+
                 </select>
                 @error('type')
                 <small class = "form-text text-danger">{{ $message}} </small>

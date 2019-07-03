@@ -15,6 +15,7 @@
         <th scope="col">กลุ่มงาน</th>
         <th scope="col">ชื่อผู้ใช้งาน</th>
         <th scope="col">รายละเอียดงาน</th>
+        <th scope="col">ผู้บันทึก</th>
         <th scope="col">สถานะงาน</th>
         <th scope="col">ยืนยันสถานะ</th>
         <th scope="col">แก้ไข</th>
@@ -28,6 +29,7 @@
         <th>{{ $task->type->name}}</th>
         <th>{{ $task->name }}</th>
         <th>{{ $task->detail }}</th>
+        <th>{{ $task->user->name }}</th>
         <!-- <th>{{ $task->completed }}</th> -->
         <th> {{ $task->completed == 0 ? 'Ongoing' : 'Completed' }}</th>
       

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Task;
+use \App\Type;
 
 class TaskController extends Controller
 {
@@ -62,6 +63,8 @@ class TaskController extends Controller
         $task->type_id = $request->input('type_id');
         $task->name = $request->input('name');
         $task->detail = $request->input('detail');
+        $user_id = \Auth::id();
+        $task->user_id = $user_id;
         $task->completed =$request->input('status');
         $task->save(); 
     
@@ -89,10 +92,11 @@ class TaskController extends Controller
     {
         $tasks = \App\Task::all(); 
         $task = \App\Task::find($id); 
+        $types = \App\Type::all();
         if (empty($task)){
             return "Not found";
         }
-         return view('report')->with(['task' => $task,'tasks' => $tasks]);  
+         return view('report')->with(['task' => $task,'tasks' => $tasks,'types' => $types]);  
        
     }
 
