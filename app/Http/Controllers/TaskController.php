@@ -21,8 +21,17 @@ class TaskController extends Controller
             
     // $tasks = Task::all();
     $types = \App\Type::all();
-    $tasks = Task::all();
-  
+    
+    $role = \Auth::user()->roles()
+                        ->where('role_id',1) 
+                        ->orWhere('role_id',2)
+                        -> first();
+    if(!empty($role)){
+        $tasks = Task::all();
+    }else{
+        $tasks = Task::where('user_id',\Auth::id())->get();
+    }
+    // $tasks = Task::all();
     return view('report',compact('tasks','types'));
     }
 
@@ -112,7 +121,7 @@ class TaskController extends Controller
          
         Task::find($id)->update($request->all());
         return redirect()->back()->with('success','Edited Successfully !!');
-
+        
     }
 
     /**
@@ -126,5 +135,6 @@ class TaskController extends Controller
         $task=Task::find($id);
         $task->delete();
         return back();
+        
     }
 }
