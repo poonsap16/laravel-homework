@@ -21,8 +21,13 @@ class CreateRolesTable extends Migration
         
         
 
-        $roles = array(['name' => 'Admin'],['name' => 'Staff'],['name' => 'User']);
-        foreach ($roles as $role){
+        $roles = array(
+            ['name' => 'Admin'],
+            ['name' => 'Staff'],
+            ['name' => 'User']
+        );
+        foreach ($roles as $role)
+        {
             \App\Role::create($role);
         }
 

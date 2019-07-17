@@ -22,10 +22,11 @@ class TaskController extends Controller
     // $tasks = Task::all();
     $types = \App\Type::all();
     
-    $role = \Auth::user()->roles()
-                        ->where('role_id',1) 
-                        ->orWhere('role_id',2)
-                        -> first();
+    // $role = \Auth::user()->roles()->where('role_id',1)->first();
+    $role = \Auth::user()->roles()->where(function($query){
+        $query->where('role_id',1)->orwhere('role_id',2);  
+    })->first();
+    
     if(!empty($role)){
         $tasks = Task::all();
     }else{
@@ -102,9 +103,17 @@ class TaskController extends Controller
         $tasks = \App\Task::all(); 
         $task = \App\Task::find($id); 
         $types = \App\Type::all();
-        if (empty($task)){
-            return "Not found";
+
+        $role = \Auth::user()->roles()->where(function($query){
+            $query->where('role_id',1)->orwhere('role_id',2);  
+        })->first();
+        
+        if(!empty($role)){
+            $tasks = Task::all();
+        }else{
+            $tasks = Task::where('user_id',\Auth::id())->get();
         }
+
          return view('report')->with(['task' => $task,'tasks' => $tasks,'types' => $types]);  
        
     }
@@ -118,10 +127,11 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-         
-        Task::find($id)->update($request->all());
+
+        $tasks = Task::find($id)->update($request->all());
         return redirect()->back()->with('success','Edited Successfully !!');
-        
+
+
     }
 
     /**
@@ -130,11 +140,13 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
+
         $task=Task::find($id);
         $task->delete();
         return back();
-        
+
     }
 }

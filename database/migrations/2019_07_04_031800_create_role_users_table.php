@@ -17,6 +17,7 @@ class CreateRoleUsersTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('role_id');
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
 
@@ -27,6 +28,7 @@ class CreateRoleUsersTable extends Migration
             ['user_id' => 2, 'role_id' => 2],
             ['user_id' => 3, 'role_id' => 2],
             ['user_id' => 4, 'role_id' => 3],
+            ['user_id' => 5, 'role_id' => 3],
         );
         foreach($role_users as $role_user){
             \App\RoleUser::create($role_user);
