@@ -13,4 +13,10 @@ class Role extends Model
             ->withPivot('active')
             ->withTimestamps();
     }
+
+    public function scopeAdminOrStaff($sub_query){
+    		$query->where(function($sub_query){
+    			$sub_query->where('role_id',1)->orWhere('role_id',2);
+    		});
+    }
 }

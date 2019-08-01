@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use \App\Task;
 use \App\Type;
 
@@ -28,9 +29,34 @@ class TaskController extends Controller
     })->first();
     
     if(!empty($role)){
-        $tasks = Task::all();
+        //$tasks = Task::all();
+        // $tasks = DB::table('tasks')
+        //                 ->join('types','tasks.type_id',"=",'types.id')
+        //                 ->join('users','tasks.user_id',"=",'users.id')
+        //                 ->select(
+        //                     'tasks.*',
+        //                     'types.name as type_name',
+        //                     'users.username as username'
+        //                 )
+        //                 ->get();
+        //return $tasks;
+        $sort = 'desc';
+        $tasks =Task::taskAll($sort)->paginate(10);
     }else{
-        $tasks = Task::where('user_id',\Auth::id())->get();
+        //$tasks = Task::where('user_id',\Auth::id())->get();
+        // $tasks = DB::table('tasks')
+        // ->join('types','tasks.type_id',"=",'types.id')
+        // ->join('users','tasks.user_id',"=",'users.id')
+        // ->select(
+        //     'tasks.*',
+        //     'types.name as type_name',
+        //     'users.username as username'
+        // )
+        // ->where('user_id',\Auth::id())
+        // ->get();
+        
+        $tasks =Task::where('user_id',\Auth::id())
+        			->taskAll('desc')->paginate(10);
     }
     // $tasks = Task::all();
     return view('report',compact('tasks','types'));
@@ -109,9 +135,29 @@ class TaskController extends Controller
         })->first();
         
         if(!empty($role)){
-            $tasks = Task::all();
+            //$tasks = Task::all();
+            $tasks = DB::table('tasks')
+                            ->join('types','tasks.type_id',"=",'types.id')
+                            ->join('users','tasks.user_id',"=",'users.id')
+                            ->select(
+                                'tasks.*',
+                                'types.name as type_name',
+                                'users.username as username'
+                            )
+                            ->get();
+            //return $tasks;
         }else{
-            $tasks = Task::where('user_id',\Auth::id())->get();
+            //$tasks = Task::where('user_id',\Auth::id())->get();
+            $tasks = DB::table('tasks')
+            ->join('types','tasks.type_id',"=",'types.id')
+            ->join('users','tasks.user_id',"=",'users.id')
+            ->select(
+                'tasks.*',
+                'types.name as type_name',
+                'users.username as username'
+            )
+            ->where('user_id',\Auth::id())
+            ->get();
         }
 
          return view('report')->with(['task' => $task,'tasks' => $tasks,'types' => $types]);  

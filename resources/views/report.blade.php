@@ -26,10 +26,12 @@
     @foreach($tasks as $task)
     <tr>    
         <th>{{ $task->id }}</th>
-        <th>{{ $task->type->name}}</th>
+        {{-- <th>{{ $task->type->name}}</th> --}}
+        <th>{{ $task->type_name }}</th>
         <th>{{ $task->name }}</th>
         <th>{{ $task->detail }}</th>
-        <th>{{ $task->user->name }}</th>
+        {{--<th>{{ $task->user->name }}</th>--}}
+        <th>{{ $task->username }}</th>
         <!-- <th>{{ $task->completed }}</th> -->
         <th> {{ $task->completed == 0 ? 'Ongoing' : 'Completed' }}</th>
       
@@ -70,6 +72,8 @@
 </table>
 </div>
 
-
+<div class="pagination justify-content-center">
+  {{$tasks->links()}}
+</div>
 
 @endsection
