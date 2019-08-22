@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \App\Task;
 use \App\Type;
+use Illuminate\Support\Facades\Storage; 
 
 class TaskController extends Controller
 {
@@ -84,8 +85,9 @@ class TaskController extends Controller
         $validate =[
             'type_id' => 'required',
             'name' => 'required|max:5',
-            'status' => 'required'
-    
+            'status' => 'required',
+            'file_upload' => 'required|mimes:pdf,jpg,jpeg|max:1024'
+
         ];
         $messageError = [
             'type_id.required' => 'เลือกประเภทงาน',
@@ -93,16 +95,53 @@ class TaskController extends Controller
             'name.max' => 'กรอกได้ไม่เกิน 5 ตัวอักษร'
         ];
     
-  
+//$request->all();
+
+
+
+
         $request->validate($validate,$messageError);
         $task = new \App\Task();
         $task->type_id = $request->input('type_id');
         $task->name = $request->input('name');
         $task->detail = $request->input('detail');
+
+        
         $user_id = \Auth::id();
         $task->user_id = $user_id;
         $task->completed =$request->input('status');
         $task->save(); 
+
+        if($request->hasfile('file_upload')){
+            //$path = $request->file('file_upload')->store('public/tasks');
+            $path = $request->file('file_upload')->storeAs('public/tasks', 
+                            $request->file('file_upload')->getClientOriginalName());
+        
+            //return $path;
+            //return Storage::url($path);
+            $file = pathinfo($path);
+            $task->file = $file ['basename'];
+            $task->update();
+
+            return Storage::download($path);
+
+
+            //return $file;
+            }
+        else{
+            return 'no file';
+        }
+        //return$path;
+
+        // $request->validate($validate,$messageError);
+        // $task = new \App\Task();
+        // $task->type_id = $request->input('type_id');
+        // $task->name = $request->input('name');
+        // $task->detail = $request->input('detail');
+        // $user_id = \Auth::id();
+        // $task->user_id = $user_id;
+        // $task->completed =$request->input('status');
+        // $task->save(); 
     
         return redirect('show');
     }

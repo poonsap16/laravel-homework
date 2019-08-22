@@ -30,6 +30,7 @@
         <th>{{ $task->type_name }}</th>
         <th>{{ $task->name }}</th>
         <th>{{ $task->detail }}</th>
+        <th><a href="{{ url('storage/tasks/'.$task->file) }}">คลิกเพื่อดูไฟล์</a></th>
         {{--<th>{{ $task->user->name }}</th>--}}
         <th>{{ $task->username }}</th>
         <!-- <th>{{ $task->completed }}</th> -->
