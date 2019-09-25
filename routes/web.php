@@ -26,6 +26,8 @@ Route::patch('/tasks/{id}','TaskController@update');
 
 Route::delete('tasks/{id}','TaskController@destroy');
 
+Route::get('/upload','UploadController@index');
+Route::post('/save','UploadController@store');
 
 Route::get('/', function(){
     return view('welcome');
