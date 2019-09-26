@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\Upload;
+use App\TimeStamp;
 
 class UploadController extends Controller
 {
@@ -42,13 +43,20 @@ class UploadController extends Controller
 
         if($request->hasFile('file')){
             $path = $request->file('file')->store('/public');
+
+            $time_stamps = new \App\Imports\TimeStampsImport();
+            $time_stamps->import(storage_path('app/'.$path));
             //$path = $request->file('file')->storeAS('/', $request->file('file')->getClientOriginalName());
             $filename = pathinfo($path);
             $upload->file = $filename['basename'];
             $upload->update();
             //return Storage::download($path);
-            return Storage::url($path);
+            //return Storage::url($path);
 
+
+ // $time_stamps->import(storage_path('app\public\PKJQITtKMo8cVYFIeDj5kYEt7ucUNmtmxDolJkia.xlsx'));
+
+            return redirect('/upload');
         }else{
             return 'no file';
         }
